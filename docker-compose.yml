@@ -1,0 +1,27 @@
+version: '3'
+services:
+  file-processor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./data:/app/data
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=transactions
+      - EMAIL_FROM=your-email@example.com
+      - EMAIL_PASSWORD=your-email-password
+    depends_on:
+      - db
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=transactions
+    ports:
+      - 5432:5432
